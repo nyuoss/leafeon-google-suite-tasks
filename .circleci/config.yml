@@ -1,0 +1,37 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: cimg/python:3.8
+    steps:
+      - checkout
+
+      # Set up Python with PDM
+      - run:
+          name: Set up Python with PDM
+          command: |
+          
+            python -m pip install --upgrade pip
+            pip install pdm
+            pdm config python.use_venv true
+
+      # Install default + development dependencies
+      - run:
+          name: Install default + development dependencies
+          command: pdm install -d
+
+      # Run tests with pytest
+      - run:
+          name: Run tests
+          command: pdm run pytest source/tests
+
+      # Run Flake8 for linting
+      - run:
+          name: Lint with Flake8
+          command: pdm run flake8 source
+
+      # Run Black for formatting
+      - run:
+          name: Apply Black formatting
+          command: pdm run black .

@@ -1,0 +1,50 @@
+[project]
+name = "Python Template"
+version = "0.0.0"
+description = "A brief description of what your project does."
+authors = [{ name = "Your Name", email = "youremail@example.com" }]
+license = { text = "MIT" }
+requires-python = ">=3.8"
+dependencies = [
+    "flask>=1.1.2",
+    "requests>=2.25.1"
+]
+
+[build-system]
+requires = ["pdm-pep517>=0.12.0"]
+build-backend = "pdm.pep517.api"
+
+[tool.pdm]
+python_requires = ">=3.8"
+
+[tool.pdm.dev-dependencies]
+lint = [
+    "flake8>=3.8,<4",
+    "black==21.12b0",
+    "click==8.0.4"  # to solve the dependency issue with black
+]
+test = ["pytest", "pytest-cov"]
+
+# Optional configurations for other tools like black, flake8 as per the reference file
+[tool.black]
+target-version = ['py38', 'py39', 'py310']
+include = '\.pyi?$'
+exclude = '''
+/(
+    .eggs
+  | .git
+  | .hg
+  | .mypy_cache
+  | .tox
+  | .venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.flake8]
+max-line-length = 88
+exclude = ".venv,.git,.hg,.mypy_cache,.tox,_build,buck-out,build,dist"
+

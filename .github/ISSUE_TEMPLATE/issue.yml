@@ -1,0 +1,28 @@
+name: Issue Report
+description: Submit details about an issue
+title: "[Issue]: "
+labels: ["issue", "bug"]
+projects: []
+# assignees:
+#   - octocat
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is a sample form that can be used for collecting issues.
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Information
+      description: What is your email?
+      placeholder: i.e. abc123@nyu.edu
+    validations:
+      required: false
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Details?
+      description: Provide in as much detail what happened and how we can fix it.
+      placeholder: A bug happened!
+    validations:
+      required: true
