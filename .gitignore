@@ -6,6 +6,15 @@ __pycache__/
 # C extensions
 *.so
 
+# dependencies
+source/frontend/node_modules/*
+
+# production
+source/frontend/build/*
+
+.DS_Store
+source/.DS_Store
+
 # Distribution / packaging
 .Python
 build/
