@@ -15,13 +15,59 @@ export const GoogleDocsProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
   const [accessToken, setAccessToken] = useState('');
 
-  const moveCommentToTasks = (commentIndex) => {
+  const moveCommentToTasks = async (commentIndex) => {
     const updatedComments = [...comments];
     const movedComment = updatedComments.splice(commentIndex, 1)[0];
+    
+    // Create title for the new task
+    const title = `Tagged by ${movedComment.author} on ${movedComment.fileName}`;
+  
+    // Create new task object with title and note from the moved comment
+    const newTask = {
+      title: title,
+      note: movedComment.content
+      // Add any other properties you need for the task
+    };
+  
+    // Update tasks state to include the new task optimistically
+    setTasks(prevTasks => [...prevTasks, newTask]);
+  
+    // Update comments state to remove the moved comment
     setComments(updatedComments);
-    setTasks(prevTasks => [...prevTasks, movedComment]);
+  
+    // Prepare request body for creating the task
+    const requestBody = {
+      title: newTask.title,
+      notes: newTask.note,
+      // Add any other properties you need for the task
+    };
+  
+    try {
+      // Make API request to create the task
+      const response = await fetch("https://www.googleapis.com/tasks/v1/lists/@default/tasks", {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+      });
+  
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+  
+      console.log("Task created successfully!");
+  
+    } catch (error) {
+      console.error("Error creating task:", error);
+      // If there's an error, revert the changes made optimistically
+      setTasks(prevTasks => prevTasks.filter(task => task !== newTask));
+      setComments(prevComments => [...prevComments, movedComment]);
+    }
   };
 
+  
   const loadComments = (accessToken) => {
     let allComments = []; // Accumulate comments in this array
   
@@ -71,13 +117,41 @@ export const GoogleDocsProvider = ({ children }) => {
         console.error("Error listing files:", error);
       });
   };
+
+  const loadTasks = (accessToken) => {
+    fetch("https://www.googleapis.com/tasks/v1/lists/@default/tasks", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("Tasks Response:", data);
+        const allTasks = data.items.map(task => ({
+          title: task.title,
+          note: task.notes,
+          
+          // Add any other properties you need
+        }));
+        setTasks(allTasks);
+      })
+      .catch(error => {
+        console.error("Error listing tasks:", error);
+      });
+  };
+
   
 
   useEffect(() => {
     function start() {
       gapi.client.init({
         clientId: clientId,
-        scope: 'https://www.googleapis.com/auth/documents.readonly'
+        scope: 'https://www.googleapis.com/auth/documents.readonly https://www.googleapis.com/auth/tasks https://www.googleapis.com/auth/drive'
       }).then(() => {
         const authInstance = gapi.auth2.getAuthInstance();
         if (authInstance.isSignedIn.get()) {
@@ -85,6 +159,7 @@ export const GoogleDocsProvider = ({ children }) => {
           const authResponse = user.getAuthResponse();
           setAccessToken(authResponse.access_token);
           loadComments(authResponse.access_token);
+          loadTasks(authResponse.access_token);
         } else {
           console.error('User is not signed in.');
         }

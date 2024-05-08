@@ -14,7 +14,6 @@ function Comments() {
             <div className=''>
                 <h1 className='mb-6 font-light text-2xl justify-center text-center' style={{color:'#14367B'}} > Assigned Comments</h1>
                 <div className='px-6 '>
-                    {/* Ensure comments is an array before using map */}
                     {Array.isArray(comments) && comments.map((comment, index) => (
                                         <div className='flex  gap-4'>
                                         <CommentBox  key={index} author={comment.author} file={comment.fileName} text={comment.content} />

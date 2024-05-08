@@ -13,7 +13,7 @@ function Tasks() {
         <div className='px-6 '>
           {Array.isArray(tasks) && tasks.map((task, index) => (
             <div className='flex  gap-4'>
-              <TaskBox key={index} author={task.author} file={task.fileName} text={task.content} />
+              <TaskBox key={index} title={task.title} note={task.note}  />
               {/* Add any additional UI elements for converted tasks here */}
             </div>
           ))}
