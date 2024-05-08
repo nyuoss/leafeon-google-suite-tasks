@@ -1,9 +1,47 @@
 version: 2.1
 
 jobs:
-  build:
+  backend:
     docker:
-      - image: cimg/node:18.18.2  # Use Node.js image for building React app
+      - image: cimg/python:3.8  # Use Python image for backend
+    
+    environment:
+      CI: "false"
+
+    steps:
+      - checkout  # Checkout the source code
+
+      # Set up Python with PDM
+      - run:
+          name: Set up Python with PDM
+          command: |
+            python -m pip install --upgrade pip
+            pip install pdm
+            pdm config python.use_venv true
+
+      # Install default + development dependencies for backend
+      - run:
+          name: Install backend dependencies
+          command: pdm install -d
+
+      # Run tests with pytest
+      - run:
+          name: Run backend tests
+          command: pdm run pytest source/tests
+
+      # Run Flake8 for backend linting
+      - run:
+          name: Lint backend with Flake8
+          command: pdm run flake8 source
+
+      # Run Black for backend formatting
+      - run:
+          name: Apply backend Black formatting
+          command: pdm run black .
+
+  frontend:
+    docker:
+      - image: cimg/node:18.18.2  # Use Node.js image for frontend
     
     environment:
       CI: "false"
@@ -19,63 +57,27 @@ jobs:
             sudo ./aws/install
             aws --version  # Verify AWS CLI installation
 
+      - run:
+          name: Install frontend dependencies
+          command: npm install --force
+          working_directory: source/frontend  # Navigate to frontend folder
 
       - run:
-          name: Navigate to frontend folder
-          command: cd source/frontend  # Move to frontend folder
-
-      - run:
-          name: Install dependencies
-          command: npm install --force # Install dependencies
+          name: Build frontend
+          command: npm run build
           working_directory: source/frontend
 
       - run:
-          name: Build
-          command: npm run build  # Build the React application
-          working_directory: source/frontend
-
-      - run:
-          name: Upload to S3
+          name: Upload frontend to S3
           command: |
             aws configure set aws_access_key_id $ACCESS_KEY
             aws configure set aws_secret_access_key $SECRET_KEY
             aws s3 sync build/ s3://leafeon  # Upload build artifacts to S3
           working_directory: source/frontend
 
-# version: 2.1
-
-# jobs:
-#   build:
-#     docker:
-#       - image: cimg/python:3.8
-#     steps:
-#       - checkout
-
-#       # Set up Python with PDM
-#       - run:
-#           name: Set up Python with PDM
-#           command: |
-          
-#             python -m pip install --upgrade pip
-#             pip install pdm
-#             pdm config python.use_venv true
-
-#       # Install default + development dependencies
-#       - run:
-#           name: Install default + development dependencies
-#           command: pdm install -d
-
-#       # Run tests with pytest
-#       - run:
-#           name: Run tests
-#           command: pdm run pytest source/tests
-
-#       # Run Flake8 for linting
-#       - run:
-#           name: Lint with Flake8
-#           command: pdm run flake8 source
-
-#       # Run Black for formatting
-#       - run:
-#           name: Apply Black formatting
-#           command: pdm run black .
+workflows:
+  version: 2
+  build:
+    jobs:
+      - backend
+      - frontend
