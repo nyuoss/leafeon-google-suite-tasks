@@ -12,6 +12,9 @@ source/frontend/node_modules/*
 # production
 source/frontend/build/*
 
+# testing
+source/frontend/coverage/*
+
 .DS_Store
 source/.DS_Store
 
