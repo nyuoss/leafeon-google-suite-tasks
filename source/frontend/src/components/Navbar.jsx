@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types'
 import Login from './login';
@@ -9,7 +10,23 @@ import { useGoogleDocs } from '../GoogleDocsContext';
 
 
 function Navbar() {
-    const { comments, onSuccessLogin } = useGoogleDocs();
+    const { comments, accessToken } = useGoogleDocs();
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);  // State to track login status
+
+
+    const onSuccessLogin = (res) => {
+        console.log("LOGIN SUCCESS! Current user :", res.profileObj);
+        console.log("badaboom");
+        setIsUserLoggedIn(true);  // Set login status to true on successful login
+
+    };
+
+    const onSuccessLogout = (res) => {
+        console.log("Log out successfull");
+        console.log("badaboom");
+        setIsUserLoggedIn(false);  // Set login status to true on successful login
+
+    };
   return (
     <div className='navbar p-8 border mb-12 flex justify-between items-center'> {/* Flexbox container */}
         {/* Logo centered in the navbar */}
@@ -18,12 +35,12 @@ function Navbar() {
         </div>
 
         <div className='absolute right-10 flex gap-4'>
-            <div>
+            {!isUserLoggedIn && (<div>
                 <Login onSuccess={onSuccessLogin} />
-            </div>
-            <div>
-                <Logout />
-            </div>
+            </div>)}
+            {isUserLoggedIn  && (<div>
+                <Logout onSuccess={onSuccessLogout} />
+            </div>)}
         </div>
         
        
