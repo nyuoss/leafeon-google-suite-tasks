@@ -67,83 +67,56 @@ export const GoogleDocsProvider = ({ children }) => {
     }
   };
 
-  
-  const loadComments = (accessToken) => {
-    let allComments = []; // Accumulate comments in this array
-  
-    fetch("https://www.googleapis.com/drive/v3/files?access_token=" + accessToken)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then(data => {
-        const googleDocsFiles = data.files.filter(file => file.mimeType === "application/vnd.google-apps.document");
-  
-        // Map each file to a promise that fetches its comments
-        const commentPromises = googleDocsFiles.map(file => {
-          const fileId = file.id;
-          const apiUrl = `https://www.googleapis.com/drive/v2/files/${fileId}/comments?access_token=${accessToken}`;
-          
-          return fetch(apiUrl)
-            .then(response => {
-              if (!response.ok) {
-                throw new Error("Network response was not ok");
-              }
-              return response.json();
-            })
-            .then(commentData => {
-              return commentData.items.map(comment => ({
-                content: comment.content,
-                author: comment.author.displayName,
-                fileName: file.name
-              }));
-            })
-            .catch(error => {
-              console.error("Error fetching comments for file:", file.name, error);
-              return []; // Return an empty array if there's an error
-            });
-        });
-  
-        // Resolve all promises and concatenate the results into one array
-        return Promise.all(commentPromises);
-      })
-      .then(commentsArrays => {
-        allComments = commentsArrays.flat(); // Flatten the array of arrays
-        setComments(allComments); // Set the state once with all comments
-      })
-      .catch(error => {
-        console.error("Error listing files:", error);
-      });
+
+
+  const fetchComments = async (accessToken) => {
+    try {
+      console.log("Access Token:", accessToken);
+
+      const response = await fetch(`http://127.0.0.1:5000/api/comments?access_token=${accessToken}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setComments(data.comments.map(comment => ({
+        content: comment.content,
+        author: comment.author,
+        fileName: comment.fileName
+      })));
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+      setComments([]);
+    }
   };
 
-  const loadTasks = (accessToken) => {
-    fetch("https://www.googleapis.com/tasks/v1/lists/@default/tasks", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
+  const fetchTasks = async (accessToken) => {
+    try {
+      console.log("Access Token:", accessToken);
+
+      const response = await fetch(`http://127.0.0.1:5000/api/tasks?access_token=${accessToken}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log("Tasks Response:", data);
-        const allTasks = data.items.map(task => ({
-          title: task.title,
-          note: task.notes,
-          
-          // Add any other properties you need
-        }));
-        setTasks(allTasks);
-      })
-      .catch(error => {
-        console.error("Error listing tasks:", error);
-      });
+      const data = await response.json();
+      setTasks(data.tasks.map(task => ({
+        title: task.title,
+        note: task.note
+      })));
+    } catch (error) {
+      console.error('Error fetching tasks:', error);
+      setTasks([]);
+    }
   };
+
+  // useEffect(() => {
+  //   const fetchInitialData = async () => {
+  //     await fetchComments();
+  //     await fetchTasks();
+  //   };
+  //   if (accessToken) {
+  //     fetchInitialData();
+  //   }
+  // }, [accessToken]);
 
   
 
@@ -158,8 +131,13 @@ export const GoogleDocsProvider = ({ children }) => {
           const user = authInstance.currentUser.get();
           const authResponse = user.getAuthResponse();
           setAccessToken(authResponse.access_token);
-          loadComments(authResponse.access_token);
-          loadTasks(authResponse.access_token);
+          console.log("Access Token:", accessToken); // Add this line before fetch calls
+
+
+          fetchComments(authResponse.access_token);
+          fetchTasks(authResponse.access_token);
+          // loadComments(authResponse.access_token);
+          // loadTasks(authResponse.access_token);
         } else {
           console.error('User is not signed in.');
         }
