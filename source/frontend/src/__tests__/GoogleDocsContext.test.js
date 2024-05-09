@@ -1,5 +1,5 @@
 const useGoogleDocs = require("../GoogleDocsContext");
 
-test("useGoogleDocs returns", () => {
+test("useGoogleDocs non-empty", () => {
     expect(useGoogleDocs).not.toBeNull()
 });
