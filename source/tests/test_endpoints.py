@@ -1,4 +1,4 @@
-from http import HTTPStatus
+# from http import HTTPStatus
 import source.endpoints as ep
 
 
@@ -17,4 +17,3 @@ def test_get_tasks():
     resp_json = TEST_CLIENT.get(TASKS).get_json()
     assert isinstance(resp_json, dict)
     assert len(resp_json) > 0
-
