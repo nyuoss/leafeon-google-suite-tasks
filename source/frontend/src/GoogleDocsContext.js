@@ -18,30 +18,30 @@ export const GoogleDocsProvider = ({ children }) => {
   const moveCommentToTasks = async (commentIndex) => {
     const updatedComments = [...comments];
     const movedComment = updatedComments.splice(commentIndex, 1)[0];
-    
+
     // Create title for the new task
     const title = `Tagged by ${movedComment.author} on ${movedComment.fileName}`;
-  
+
     // Create new task object with title and note from the moved comment
     const newTask = {
       title: title,
       note: movedComment.content
       // Add any other properties you need for the task
     };
-  
+
     // Update tasks state to include the new task optimistically
     setTasks(prevTasks => [...prevTasks, newTask]);
-  
+
     // Update comments state to remove the moved comment
     setComments(updatedComments);
-  
+
     // Prepare request body for creating the task
     const requestBody = {
       title: newTask.title,
       notes: newTask.note,
       // Add any other properties you need for the task
     };
-  
+
     try {
       // Make API request to create the task
       const response = await fetch("https://www.googleapis.com/tasks/v1/lists/@default/tasks", {
@@ -52,13 +52,13 @@ export const GoogleDocsProvider = ({ children }) => {
         },
         body: JSON.stringify(requestBody)
       });
-  
+
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-  
+
       console.log("Task created successfully!");
-  
+
     } catch (error) {
       console.error("Error creating task:", error);
       // If there's an error, revert the changes made optimistically
@@ -118,7 +118,7 @@ export const GoogleDocsProvider = ({ children }) => {
   //   }
   // }, [accessToken]);
 
-  
+
 
   useEffect(() => {
     function start() {

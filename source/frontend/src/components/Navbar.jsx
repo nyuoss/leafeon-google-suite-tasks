@@ -27,27 +27,27 @@ function Navbar() {
         setIsUserLoggedIn(false);  // Set login status to true on successful login
 
     };
-  return (
-    <div className='navbar p-8 border mb-12 flex justify-between items-center'> {/* Flexbox container */}
-        {/* Logo centered in the navbar */}
-        <div className='absolute left-5 pl-5'>
-            <h1 className='font-extralight text-2xl'>Leafeon Google Task Aggregator</h1>
-        </div>
+    return (
+        <div className='navbar p-8 border mb-12 flex justify-between items-center'> {/* Flexbox container */}
+            {/* Logo centered in the navbar */}
+            <div className='absolute left-5 pl-5'>
+                <h1 className='font-extralight text-2xl'>Leafeon Google Task Aggregator</h1>
+            </div>
 
-        <div className='absolute right-10 flex gap-4'>
-            {!isUserLoggedIn && (<div>
-                <Login onSuccess={onSuccessLogin} />
-            </div>)}
-            {isUserLoggedIn  && (<div>
-                <Logout onSuccess={onSuccessLogout} />
-            </div>)}
+            <div className='absolute right-10 flex gap-4'>
+                {!isUserLoggedIn && (<div>
+                    <Login onSuccess={onSuccessLogin} />
+                </div>)}
+                {isUserLoggedIn && (<div>
+                    <Logout onSuccess={onSuccessLogout} />
+                </div>)}
+            </div>
+
+
+            {/* <img src="nike.svg" alt="Logo" className="logo" style={{height:50}}/> Add your logo image here */}
         </div>
-        
-       
-        {/* <img src="nike.svg" alt="Logo" className="logo" style={{height:50}}/> Add your logo image here */}
-    </div>
-  )
-}  
+    )
+}
 
 
 

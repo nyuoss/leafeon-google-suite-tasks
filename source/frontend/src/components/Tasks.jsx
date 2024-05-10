@@ -4,16 +4,16 @@ import { useGoogleDocs } from '../GoogleDocsContext';
 
 function Tasks() {
 
-    const { comments, tasks, moveCommentToTasks } = useGoogleDocs();
-    
+  const { comments, tasks, moveCommentToTasks } = useGoogleDocs();
+
   return (
     <div>
-    <div className=''>
+      <div className=''>
         <h1 className='mb-6 font-light text-2xl justify-center text-center' style={{ color: '#8F4F00' }}> Google Tasks</h1>
         <div className='px-6 '>
           {Array.isArray(tasks) && tasks.map((task, index) => (
             <div className='flex  gap-4'>
-              <TaskBox key={index} title={task.title} note={task.note}  />
+              <TaskBox key={index} title={task.title} note={task.note} />
               {/* Add any additional UI elements for converted tasks here */}
             </div>
           ))}

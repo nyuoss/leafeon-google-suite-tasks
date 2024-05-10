@@ -8,15 +8,15 @@ function Login({ onSuccess }) {
     //     console.log("LOGIN SUCCESS! Current user :" , res.profileObj);
     // }
 
-    const onFailure =(res)=>{
-        console.log("LOGIN Failed! res:" , res);
+    const onFailure = (res) => {
+        console.log("LOGIN Failed! res:", res);
     }
 
 
-    return(
+    return (
         <div id="signInButton">
             <GoogleLogin
-                clientId = {clientId}
+                clientId={clientId}
                 buttonText="Login"
                 onSuccess={onSuccess}
                 onFailure={onFailure}
