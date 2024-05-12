@@ -16,7 +16,9 @@ def filter_comments(comments, email=None):
         if email and not is_email_tagged(comment, email):
             include_comment = False
         if include_comment:
-            filtered_comments.extend([comment])
+            filtered_comments.extend([{'content': comment['content'],
+                                       'author': comment['author']['displayName'],
+                                       'fileName': comment['fileName']}])
     return filtered_comments
 
 
