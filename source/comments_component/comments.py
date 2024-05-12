@@ -1,5 +1,6 @@
 import re
 import requests
+from flask import jsonify
 
 
 # Function to detect email tags
@@ -36,15 +37,19 @@ def get_comments_from_api(access_token, email=None):
                     f'https://www.googleapis.com/drive/v2/files/{file_id}/comments', headers=headers)
                 comments_response.raise_for_status()
                 comments_data = comments_response.json()
-                comments = [{'content': "HEHEHEH",
-                             'author': "HEHEHEHE"} for comment in comments_data.get('items', [])]
+                comments.extend([{
+                    'content': comment['content'],
+                    'author': comment['author']['displayName'],
+                    'fileName': file['name']
+                    } for comment in comments_data['items']])
 
+        return jsonify({'comments': comments}), 200
         # Filter comments based on username, keyword, and email
         # filtered_comments = filter_comments(
         #     comments,
         #     email=email
         # )
 
-        return comments
+        #return comments
     except Exception as e:
         raise RuntimeError(f"Failed to fetch comments: {str(e)}")
