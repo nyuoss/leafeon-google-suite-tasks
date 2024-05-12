@@ -26,6 +26,7 @@ function Navbar() {
         setProfileImageUrl(res.profileObj.imageUrl);
         setUsername(res.profileObj.name);
         updateEmail(res.profileObj.email);
+        console.log("EMAIL", res.profileObj.email);
     };
 
     const onSuccessLogout = (res) => {
