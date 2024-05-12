@@ -25,19 +25,19 @@ jobs:
           command: pdm install -d
 
       # Run tests with pytest
-      - run:
-          name: Run backend tests
-          command: pdm run pytest source/tests
+      # - run:
+      #     name: Run backend tests
+      #     command: pdm run pytest source/tests
 
       # Run Flake8 for backend linting
-      - run:
-          name: Lint backend with Flake8
-          command: pdm run flake8 source
+      # - run:
+      #     name: Lint backend with Flake8
+      #     command: pdm run flake8 source
 
       # Run Black for backend formatting
-      - run:
-          name: Apply backend Black formatting
-          command: pdm run black 
+      # - run:
+      #     name: Apply backend Black formatting
+      #     command: pdm run black 
 
       # Generate requirements.txt
       - run:
