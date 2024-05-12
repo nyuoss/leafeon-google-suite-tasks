@@ -25,6 +25,7 @@ function Navbar() {
         console.log(res.profileObj.imageUrl);
         setProfileImageUrl(res.profileObj.imageUrl);
         setUsername(res.profileObj.name);
+        setEmail(res.profileObj.email);
     };
 
     const onSuccessLogout = (res) => {
@@ -32,6 +33,7 @@ function Navbar() {
         setIsUserLoggedIn(false);  // Set login status to true on successful login
         setProfileImageUrl(null);
         setUsername(null);
+        setEmail(null);
     };
 
     const handleImageError = () => {
