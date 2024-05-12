@@ -1,10 +1,5 @@
 # import source.component.component as component
 
-
-# def hello():
-#     print("Hello World!")
-#     print("2 + 2 = ", component.add(2, 2))
-
 from flask import Flask, request, jsonify
 import requests
 import re
@@ -17,6 +12,7 @@ CORS(app)  # Apply CORS to your Flask app
 
 # CLIENT_ID = 'your_client_id'
 # CLIENT_SECRET = 'your_client_secret'
+
 
 # Function to detect user tags
 def is_user_tagged(comment, username):
@@ -65,7 +61,8 @@ def get_comments():
     try:
         # Fetch comments from Google Drive API
         headers = {'Authorization': f'Bearer {access_token}'}
-        response = requests.get('https://www.googleapis.com/drive/v3/files', headers=headers)
+        response = requests.get('https://www.googleapis.com/drive/v3/files',
+                                headers=headers)
         response.raise_for_status()
         data = response.json()
 
@@ -73,7 +70,10 @@ def get_comments():
         for file in data['files']:
             if file['mimeType'] == 'application/vnd.google-apps.document':
                 file_id = file['id']
-                comments_response = requests.get(f'https://www.googleapis.com/drive/v2/files/{file_id}/comments', headers=headers)
+                comments_response = requests.get(
+                    f'https://www.googleapis.com/drive/\
+                        v2/files/{file_id}/comments',
+                    headers=headers)
                 comments_response.raise_for_status()
                 comments_data = comments_response.json()
                 comments.extend([{
@@ -94,23 +94,28 @@ def get_comments():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+
 @app.route('/api/tasks')
 def get_tasks():
     access_token = request.args.get('access_token')
     if not access_token:
         return jsonify({'error': 'Access token is required'}), 400
-    
+
     try:
         # Fetch tasks from Google Tasks API
         headers = {'Authorization': f'Bearer {access_token}'}
-        response = requests.get('https://www.googleapis.com/tasks/v1/lists/@default/tasks', headers=headers)
+        response = requests.get('https://www.googleapis.com/tasks/\
+                                v1/lists/@default/tasks', headers=headers)
         response.raise_for_status()
         data = response.json()
 
-        tasks = [{'title': task['title'], 'note': task.get('notes', '')} for task in data.get('items', [])]
+        tasks = [{'title': task['title'],
+                  'note': task.get('notes', '')}
+                 for task in data.get('items', [])]
         return jsonify({'tasks': tasks}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)
