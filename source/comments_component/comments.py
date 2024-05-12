@@ -42,10 +42,11 @@ def get_comments_from_api(access_token, email=None):
                     'fileName': file['name']} for comment in comments_data['items']])
 
         # Filter comments based on username, keyword, and email
-        # filtered_comments = filter_comments(
-        #     comments,
-        #     email=email
-        # )
-        return comments
+        filtered_comments = filter_comments(
+            comments,
+            email=email
+        )
+        
+        return filtered_comments
     except Exception as e:
         raise RuntimeError(f"Failed to fetch comments: {str(e)}")
