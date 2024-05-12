@@ -19,6 +19,7 @@ export const GoogleDocsProvider = ({ children }) => {
   // Function to update email
   const updateEmail = (newEmail) => {
     setEmail(newEmail);
+    console.log("Set Email From: ", newEmail, " to: ", email)
   };
 
   const moveCommentToTasks = async (commentIndex) => {
