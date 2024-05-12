@@ -54,10 +54,29 @@ Some changes had to be made for the CircleCI environment that do not always act 
 
 ## Usage
 1. Sign In
-Click on the Google "Login" button in the top right corner and follow the prompts. If the app is unverified, you can continue ~at your own risk~.
+Click on the Google "Login" button in the top right corner and follow the prompts. If the app is unverified, you can continue **at your own risk**.
 2. Reload the page, and give it a few seconds to think and load your comments and tasks.
 3. If you want to create a task from a comment, click the "Create Task +" button next to the comment. You should be able to immediately see the new task.
 4. When you're done, you can click the Google "Logout" button in the top right corner.
+
+## Contributing
+If you would like to contribute to this project, please follow these steps:
+
+1. Fork the repository.
+2. Clone the repository to your local machine.
+3. Install PDM: `pip install pdm`.
+4. Follow the Installation instructions but *ignore any changes related to local development*.
+5. Create a new branch for your feature/fix: `git checkout -b feature-name`.
+6. For any new packages/modules, check our comments on the tools used in this project such as PDM and npm.
+7. Make your changes and ensure they pass all tests and checks
+   - run `pdm run pytest source/tests` for testing
+   - run `pdm run flake8 source` for linting
+   - run `pdm run black .` for code formatting
+8. Commit your changes: `git commit -m 'Add new feature'`.
+9. Push to the branch: `git push origin feature-name`.
+10. Submit a pull request.
+
+Please make sure to update tests as appropriate.
 
 ## PDM
 This repository uses [PDM](https://pdm-project.org/latest/) to manage Python packages and dependencies.  
@@ -66,6 +85,13 @@ The configuration can be found in the `pyproject.toml` file. To add or remove de
 ### Note: Backend Dependencies for Heroku
 This project uses Heroku to deploy its backend. Heroku requires a `requirements.txt` file. If any updates are made to PDM, make sure to migrate them to the `requirements.txt` file with the following command:  
 `pdm export -o requirements.txt --without-hashes`
+
+## npm
+This repository [npm](https://docs.npmjs.com/) to manage frontend javascript packages.  
+In the project directory, you can run:
+`npm install --force`
+All of the packages are already installed through `package.json`. Any other packages can be installed using:
+`npm install <package name>`  
 
 ## Flake8 & Black
 This repository uses [Flake8](https://flake8.pycqa.org/en/latest/) linting as its static analysis tool to check the code against various style rules and detect potential issues, such as syntax errors, unused variables, or overly complex code.  
@@ -94,27 +120,11 @@ Check our CircleCI build logs [here](https://app.circleci.com/pipelines/circleci
     - `frontend/GoogleDocsProvider.js`: Context file for React. Backend (Flask) endpoints are called from here.
   - `tests/`: Contains test cases, including a test of component.py.
 
-## Contributing
-If you would like to contribute to this project, please follow these steps:
 
-1. Fork the repository.
-2. Clone the repository to your local machine.
-3. Install PDM: `pip install pdm`.
-4. Install dependencies: `pdm install`.
-5. Create a new branch for your feature/fix: `git checkout -b feature-name`.
-6. Make your changes and ensure they pass all tests and checks
-   - run `pdm run pytest source/tests` for testing
-   - run `pdm run flake8 source` for linting
-   - run `pdm run black .` for code formatting
-7. Commit your changes: `git commit -m 'Add new feature'`.
-8. Push to the branch: `git push origin feature-name`.
-9. Submit a pull request.
-
-Please make sure to update tests as appropriate.
 
 ## Issues
 
-If you encounter any issues or have suggestions, please feel free to [open an issue](https://github.com/your_username/your_repository/issues/new).
+If you encounter any issues or have suggestions, please feel free to [open an issue](https://github.com/agoluoglu/leafeon-google-suite-tasks/issues/new/choose).
 
 ## Issue and Pull Request Templates
 
