@@ -30,7 +30,8 @@ function Navbar() {
     const onSuccessLogout = (res) => {
         console.log("Log out successfull");
         setIsUserLoggedIn(false);  // Set login status to true on successful login
-
+        setProfileImageUrl(null);
+        setUsername(null);
     };
 
     const handleImageError = () => {
@@ -56,9 +57,6 @@ function Navbar() {
                     </div>
                 )}
             </div>
-        
-       
-        {/* <img src="nike.svg" alt="Logo" className="logo" style={{height:50}}/> Add your logo image here */}
     </div>
   )
 }  
