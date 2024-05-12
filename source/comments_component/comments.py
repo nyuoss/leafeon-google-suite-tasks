@@ -40,16 +40,13 @@ def get_comments_from_api(access_token, email=None):
                 comments.extend([{
                     'content': comment['content'],
                     'author': comment['author']['displayName'],
-                    'fileName': file['name']
-                    } for comment in comments_data['items']])
+                    'fileName': file['name']} for comment in comments_data['items']])
 
-        return jsonify({'comments': comments}), 200
         # Filter comments based on username, keyword, and email
         # filtered_comments = filter_comments(
         #     comments,
         #     email=email
         # )
-
-        #return comments
+        return jsonify({'comments': comments}), 200
     except Exception as e:
         raise RuntimeError(f"Failed to fetch comments: {str(e)}")
