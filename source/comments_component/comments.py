@@ -46,7 +46,6 @@ def get_comments_from_api(access_token, email=None):
             comments,
             email=email
         )
-        
         return filtered_comments
     except Exception as e:
         raise RuntimeError(f"Failed to fetch comments: {str(e)}")
