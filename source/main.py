@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from tasks_component.tasks import get_tasks_from_api
-from comments_component.comments import get_comments_from_api
+from source.comments_component.comments import get_comments_from_api
+from source.tasks_component.tasks import get_tasks_from_api
 
 app = Flask(__name__)
 CORS(app)
