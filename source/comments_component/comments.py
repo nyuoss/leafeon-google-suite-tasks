@@ -34,8 +34,7 @@ def get_comments_from_api(access_token, username=None, keyword=None, email=None)
     try:
         # Fetch comments from Google Drive API
         headers = {'Authorization': f'Bearer {access_token}'}
-        response = requests.get('https://www.googleapis.com/drive/v3/files',
-                                headers=headers)
+        response = requests.get('https://www.googleapis.com/drive/v3/files', headers=headers)
         response.raise_for_status()
         data = response.json()
 
@@ -44,8 +43,7 @@ def get_comments_from_api(access_token, username=None, keyword=None, email=None)
             if file['mimeType'] == 'application/vnd.google-apps.document':
                 file_id = file['id']
                 comments_response = requests.get(
-                    f'https://www.googleapis.com/drive/v2/files/{file_id}/comments',
-                    headers=headers)
+                    f'https://www.googleapis.com/drive/v2/files/{file_id}/comments', headers=headers)
                 comments_response.raise_for_status()
                 comments_data = comments_response.json()
                 comments.extend([{
