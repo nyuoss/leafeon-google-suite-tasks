@@ -82,9 +82,10 @@ Please make sure to update tests as appropriate.
 This repository uses [PDM](https://pdm-project.org/latest/) to manage Python packages and dependencies.  
 The configuration can be found in the `pyproject.toml` file. To add or remove dependencies, check the PDM documentation for [managing dependencies](https://pdm-project.org/latest/usage/dependency/).
 
-### Note: Backend Dependencies for Heroku
+## Heroku
 This project uses Heroku to deploy its backend. Heroku requires a `requirements.txt` file. If any updates are made to PDM, make sure to migrate them to the `requirements.txt` file with the following command:  
 `pdm export -o requirements.txt --without-hashes`
+Our Heroku dashboard can be found [here](https://dashboard.heroku.com/apps/leafeon-2).
 
 ## npm
 This repository [npm](https://docs.npmjs.com/) to manage frontend javascript packages.  
