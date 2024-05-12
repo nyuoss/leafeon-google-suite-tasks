@@ -16,6 +16,11 @@ export const GoogleDocsProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState('');
   const [email, setEmail] = useState('');
 
+  // Function to update email
+  const updateEmail = (newEmail) => {
+    setEmail(newEmail);
+  };
+
   const moveCommentToTasks = async (commentIndex) => {
     const updatedComments = [...comments];
     const movedComment = updatedComments.splice(commentIndex, 1)[0];
@@ -151,7 +156,7 @@ export const GoogleDocsProvider = ({ children }) => {
   }, []);
 
   return (
-    <GoogleDocsContext.Provider value={{ comments, accessToken, tasks, moveCommentToTasks, email }}>
+    <GoogleDocsContext.Provider value={{ comments, accessToken, tasks, moveCommentToTasks, email, updateEmail }}>
       {children}
     </GoogleDocsContext.Provider>
   );
