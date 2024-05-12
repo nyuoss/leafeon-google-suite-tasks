@@ -86,6 +86,7 @@ export const GoogleDocsProvider = ({ children }) => {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
+      console.log("Data: ", data)
       setComments(data.comments.map(comment => ({
         content: comment.content,
         author: comment.author,

@@ -41,7 +41,6 @@ def get_comments_from_api(access_token, email=None):
                     'author': comment['author'],
                     'fileName': comment['fileName']
                 } for comment in comments_data['items']])
-                print(comments)
 
         # Filter comments based on username, keyword, and email
         filtered_comments = filter_comments(

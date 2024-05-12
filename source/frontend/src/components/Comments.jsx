@@ -4,6 +4,7 @@ import { useGoogleDocs } from '../GoogleDocsContext';
 
 function Comments() {
     const { comments, tasks, moveCommentToTasks } = useGoogleDocs();
+    console.log("Comments: ", comments)
 
     const handleCreateTask = (index) => {
         moveCommentToTasks(index);
