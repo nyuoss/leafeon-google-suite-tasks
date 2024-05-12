@@ -2,21 +2,21 @@ import GoogleLogin from "react-google-login";
 
 const clientId = '931024815427-72meiq3uivuuolfukb3jvikvhhqlr574.apps.googleusercontent.com';
 
-function Login() {
+function Login({ onSuccess }) {
 
-    const onSuccess =(res)=>{
-        console.log("LOGIN SUCCESS! Current user :" , res.profileObj);
+    // const onSuccess =(res)=>{
+    //     console.log("LOGIN SUCCESS! Current user :" , res.profileObj);
+    // }
+
+    const onFailure = (res) => {
+        console.log("LOGIN Failed! res:", res);
     }
 
-    const onFailure =(res)=>{
-        console.log("LOGIN Failed! res:" , res);
-    }
 
-
-    return(
+    return (
         <div id="signInButton">
             <GoogleLogin
-                clientId = {clientId}
+                clientId={clientId}
                 buttonText="Login"
                 onSuccess={onSuccess}
                 onFailure={onFailure}
