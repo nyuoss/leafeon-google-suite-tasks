@@ -78,7 +78,7 @@ export const GoogleDocsProvider = ({ children }) => {
 
   const fetchComments = async (accessToken, email) => {
     try {
-      console.log("Access Token:", accessToken);
+      console.log("Access Token1:", accessToken);
       console.log("Email:", email);
 
       const response = await fetch(`https://leafeon-google-task-8653dac8c71f.herokuapp.com/api/comments?access_token=${accessToken}&email=${email}`);
@@ -99,7 +99,7 @@ export const GoogleDocsProvider = ({ children }) => {
 
   const fetchTasks = async (accessToken) => {
     try {
-      console.log("Access Token:", accessToken);
+      console.log("Access Token2:", accessToken);
 
       const response = await fetch(`https://leafeon-google-task-8653dac8c71f.herokuapp.com/api/tasks?access_token=${accessToken}`);
       if (!response.ok) {
@@ -139,14 +139,10 @@ export const GoogleDocsProvider = ({ children }) => {
           const user = authInstance.currentUser.get();
           const authResponse = user.getAuthResponse();
           setAccessToken(authResponse.access_token);
-
-          // Check if the auth response contains the user's email
           const userEmail = user.getBasicProfile().getEmail();
-          if (userEmail) {
-            updateEmail(userEmail); // Update the email state
-          }
+          setEmail(userEmail)
 
-          console.log("Access Token:", accessToken); // Add this line before fetch calls
+          console.log("Access Token3:", accessToken); // Add this line before fetch calls
           console.log("Email Check:", userEmail, " and ", email); // Add this line before fetch calls
 
           fetchComments(authResponse.access_token, email);
