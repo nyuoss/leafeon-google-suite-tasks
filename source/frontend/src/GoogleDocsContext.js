@@ -139,8 +139,15 @@ export const GoogleDocsProvider = ({ children }) => {
           const user = authInstance.currentUser.get();
           const authResponse = user.getAuthResponse();
           setAccessToken(authResponse.access_token);
+
+          // Check if the auth response contains the user's email
+          const userEmail = user.getBasicProfile().getEmail();
+          if (userEmail) {
+            updateEmail(userEmail); // Update the email state
+          }
+
           console.log("Access Token:", accessToken); // Add this line before fetch calls
-          console.log("Email Check:", email); // Add this line before fetch calls
+          console.log("Email Check:", userEmail, " and ", email); // Add this line before fetch calls
 
           fetchComments(authResponse.access_token, email);
           fetchTasks(authResponse.access_token);

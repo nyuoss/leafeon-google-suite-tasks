@@ -3,9 +3,9 @@ import requests
 
 
 # Function to detect user tags
-def is_user_tagged(comment, username):
-    pattern = f"@{re.escape(username)}\\b"
-    return bool(re.search(pattern, comment))
+# def is_user_tagged(comment, username):
+#     pattern = f"@{re.escape(username)}\\b"
+#     return bool(re.search(pattern, comment))
 
 
 # Function to detect email tags
@@ -19,10 +19,10 @@ def filter_comments(comments, username=None, keyword=None, email=None):
     filtered_comments = []
     for comment in comments:
         include_comment = True
-        if username and not is_user_tagged(comment, username):
-            include_comment = False
-        if keyword and keyword.lower() not in comment.lower():
-            include_comment = False
+        # if username and not is_user_tagged(comment, username):
+        #     include_comment = False
+        # if keyword and keyword.lower() not in comment.lower():
+        #     include_comment = False
         if email and not is_email_tagged(comment, email):
             include_comment = False
         if include_comment:
