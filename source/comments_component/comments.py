@@ -1,6 +1,6 @@
 import re
 import requests
-from flask import jsonify
+#from flask import jsonify
 
 
 # Function to detect email tags
