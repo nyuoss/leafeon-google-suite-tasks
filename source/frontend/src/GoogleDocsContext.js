@@ -139,7 +139,7 @@ export const GoogleDocsProvider = ({ children }) => {
           const authResponse = user.getAuthResponse();
           setAccessToken(authResponse.access_token);
           console.log("Access Token:", accessToken); // Add this line before fetch calls
-
+          console.log("Email Check:", email); // Add this line before fetch calls
 
           fetchComments(authResponse.access_token, email);
           fetchTasks(authResponse.access_token);
