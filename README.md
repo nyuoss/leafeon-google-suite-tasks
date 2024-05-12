@@ -28,12 +28,12 @@ With further development time, the following features from the proposal could be
 - Expand support to other Google Workspace apps (Google Sheets, Google Slides, etc.)
 - Potentially filter to only assigned comments, though we found that we preferred seeing all comments with the potential to convert to Tasks.
 - Improve UX by only displaying a certain number of comments or tasks at a time and using a scroll bar or "load more" buttons. 
-- Improve reactivity by removing the need to ever reload the page
+- Improve reactivity by removing the need to ever reload the page. 
 - Include functionality to edit/delete comments or tasks inside of our application
 - Include functionality to notify users of tasks
 - Include functionality to directly create a new blank task from our application (currently can only create a task from a comment).
 
-## Installation & Usage Instructions
+## Installation & Running Locally
 1. Clone this repository.
 2. In the root directory, run `pdm install`. If you receive any import or module errors, try deleting the `pdm.lock` and `.pdm-python` files before running the command again.
 Importantly, these include modules/packages like flask (for the backend), pytest, flake8, black, gunicorn (for Heroku), and coverage.  
@@ -51,6 +51,13 @@ Replace the `https://leafeon-2-8bd3e618e164.herokuapp.com/` part of the url with
 Some changes had to be made for the CircleCI environment that do not always act the same locally. If you receive a `ModuleNotFoundError: No module named 'source'`, in the `main.py` imports delete the preceding `source.`s to directly import the module. This change was added for pytest to run successfully, but is known to cause issues locally.
 8. Navigate to the `source/frontend` directory.
 9. Run `npm start` to start the frontend. This should launch a window running the app in your browser at the address `http://localhost:3000`.
+
+## Usage
+1. Sign In
+Click on the Google "Login" button in the top right corner and follow the prompts. If the app is unverified, you can continue ~at your own risk~.
+2. Reload the page, and give it a few seconds to think and load your comments and tasks.
+3. If you want to create a task from a comment, click the "Create Task +" button next to the comment. You should be able to immediately see the new task.
+4. When you're done, you can click the Google "Logout" button in the top right corner.
 
 ## PDM
 This repository uses [PDM](https://pdm-project.org/latest/) to manage Python packages and dependencies.  
@@ -72,6 +79,7 @@ Pytest is set to run on the `source/tests` directory in the "Run tests" run step
 ## CircleCI
 This repository uses [CircleCI](https://circleci.com/) for continuous integration.  
 CircleCI will automatically set up python with PDM, install default and development dependencies, run tests with pytest, perform static analysis with flake8, and apply black formatting. It deploys the backend to Heroku and the frontend to an AWS s3 bucket. To modify these build steps, check the configuration in the `.circleci/config.yml` file.  
+Check our CircleCI build logs [here](https://app.circleci.com/pipelines/circleci/42j8atdDzgh7tmZyp3BEAx/Pshoq7A2DaUQnaF7GuCyVm).
 
 ## Directory Structure
 
@@ -85,10 +93,6 @@ CircleCI will automatically set up python with PDM, install default and developm
     - `frontend/components`: Contains the components used in UI
     - `frontend/GoogleDocsProvider.js`: Context file for React. Backend (Flask) endpoints are called from here.
   - `tests/`: Contains test cases, including a test of component.py.
-
-## Usage
-If you would like to use this template, click the "Use this Template" button in the top right corner.
-<img width="1314" alt="Screenshot 2024-02-10 at 5 33 41 PM" src="https://github.com/zhangdzh/py-template/assets/119933910/242837ec-7155-443f-b3a3-f510ffccd158">
 
 ## Contributing
 If you would like to contribute to this project, please follow these steps:
