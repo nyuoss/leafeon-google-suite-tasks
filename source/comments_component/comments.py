@@ -49,6 +49,7 @@ def get_comments_from_api(access_token, email=None):
             comments,
             email=email
         )
-        return jsonify({'comments': filtered_comments})
+        print(filtered_comments)
+        return comments
     except Exception as e:
         raise RuntimeError(f"Failed to fetch comments: {str(e)}")
