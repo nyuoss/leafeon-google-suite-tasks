@@ -1,8 +1,8 @@
 # from http import HTTPStatus
-import source.endpoints as ep
+import source.main as main
 
 
-TEST_CLIENT = ep.app.test_client()
+TEST_CLIENT = main.app.test_client()
 COMMENTS = "/api/comments"
 TASKS = "/api/tasks"
 
