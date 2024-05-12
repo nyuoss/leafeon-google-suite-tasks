@@ -1,15 +1,18 @@
 import re
 import requests
 
+
 # Function to detect user tags
 def is_user_tagged(comment, username):
     pattern = f"@{re.escape(username)}\\b"
     return bool(re.search(pattern, comment))
 
+
 # Function to detect email tags
 def is_email_tagged(comment, email):
     pattern = f"{re.escape(email)}"
     return bool(re.search(pattern, comment))
+
 
 # Function to filter comments
 def filter_comments(comments, username=None, keyword=None, email=None):
@@ -26,11 +29,13 @@ def filter_comments(comments, username=None, keyword=None, email=None):
             filtered_comments.append(comment)
     return filtered_comments
 
+
 def get_comments_from_api(access_token, username=None, keyword=None, email=None):
     try:
         # Fetch comments from Google Drive API
         headers = {'Authorization': f'Bearer {access_token}'}
-        response = requests.get('https://www.googleapis.com/drive/v3/files', headers=headers)
+        response = requests.get('https://www.googleapis.com/drive/v3/files',
+                                headers=headers)
         response.raise_for_status()
         data = response.json()
 
