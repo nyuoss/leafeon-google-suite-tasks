@@ -9,7 +9,7 @@ def is_email_tagged(comment, email):
 
 
 # Function to filter comments
-def filter_comments(comments, username=None, keyword=None, email=None):
+def filter_comments(comments, email=None):
     filtered_comments = []
     for comment in comments:
         include_comment = True
@@ -36,18 +36,9 @@ def get_comments_from_api(access_token, email=None):
                     f'https://www.googleapis.com/drive/v2/files/{file_id}/comments', headers=headers)
                 comments_response.raise_for_status()
                 comments_data = comments_response.json()
-                print("comments_data", comments_data)
-                # comments.extend([{
-                #     'content': comment['content'],
-                #     'author': comment['author'],
-                #     'fileName': comment['fileName']
-                # } for comment in comments_data['items']])
-                # comments.extend = [{'content': comment['content'],
-                #                     'author': comment['author'], 'fileName': comment['fileName']}
-                #                     for comment in comments_data.get('items', [])]
-                comments = [{'content': comment.get('content'),
-                             'author': comment['author']['displayName'],  # Assuming 'author' is a dictionary with 'displayName' key
-                             'fileName': comment.get('fileName')} for comment in comments_data]
+                comments.extend([{'content': comment.get('content'),
+                                  'author': comment['author']['displayName'],
+                                  'fileName': comment.get('fileName')} for comment in comments_data])
 
         # Filter comments based on username, keyword, and email
         filtered_comments = filter_comments(
@@ -55,6 +46,6 @@ def get_comments_from_api(access_token, email=None):
             email=email
         )
 
-        return filtered_comments
+        return comments
     except Exception as e:
         raise RuntimeError(f"Failed to fetch comments: {str(e)}")

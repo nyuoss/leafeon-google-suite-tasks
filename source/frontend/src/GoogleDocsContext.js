@@ -107,6 +107,7 @@ export const GoogleDocsProvider = ({ children }) => {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
+      console.log("TaskData: ", data)
       setTasks(data.tasks.map(task => ({
         title: task.title,
         note: task.note
