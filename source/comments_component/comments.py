@@ -36,11 +36,18 @@ def get_comments_from_api(access_token, email=None):
                     f'https://www.googleapis.com/drive/v2/files/{file_id}/comments', headers=headers)
                 comments_response.raise_for_status()
                 comments_data = comments_response.json()
-                comments.extend([{
-                    'content': comment['content'],
-                    'author': comment['author'],
-                    'fileName': comment['fileName']
-                } for comment in comments_data['items']])
+                print("comments_data", comments_data)
+                # comments.extend([{
+                #     'content': comment['content'],
+                #     'author': comment['author'],
+                #     'fileName': comment['fileName']
+                # } for comment in comments_data['items']])
+                # comments.extend = [{'content': comment['content'],
+                #                     'author': comment['author'], 'fileName': comment['fileName']}
+                #                     for comment in comments_data.get('items', [])]
+                comments = [{'content': comment.get('content'),
+                             'author': comment['author']['displayName'],  # Assuming 'author' is a dictionary with 'displayName' key
+                             'fileName': comment.get('fileName')} for comment in comments_data]
 
         # Filter comments based on username, keyword, and email
         filtered_comments = filter_comments(
