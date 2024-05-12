@@ -14,6 +14,13 @@ export const GoogleDocsProvider = ({ children }) => {
   const [comments, setComments] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [accessToken, setAccessToken] = useState('');
+  const [email, setEmail] = useState('');
+
+  // Function to update email
+  const updateEmail = (newEmail) => {
+    setEmail(newEmail);
+    console.log("Set Email From: ", newEmail, " to: ", email)
+  };
 
   const moveCommentToTasks = async (commentIndex) => {
     const updatedComments = [...comments];
@@ -69,15 +76,17 @@ export const GoogleDocsProvider = ({ children }) => {
 
 
 
-  const fetchComments = async (accessToken) => {
+  const fetchComments = async (accessToken, email) => {
     try {
-      console.log("Access Token:", accessToken);
+      console.log("Access Token1:", accessToken);
+      console.log("Email:", email);
 
-      const response = await fetch(`https://leafeon-google-task-8653dac8c71f.herokuapp.com/api/comments?access_token=${accessToken}`);
+      const response = await fetch(`https://leafeon-google-task-8653dac8c71f.herokuapp.com/api/comments?access_token=${accessToken}&email=${email}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
+      console.log("Data: ", data)
       setComments(data.comments.map(comment => ({
         content: comment.content,
         author: comment.author,
@@ -91,13 +100,14 @@ export const GoogleDocsProvider = ({ children }) => {
 
   const fetchTasks = async (accessToken) => {
     try {
-      console.log("Access Token:", accessToken);
+      console.log("Access Token2:", accessToken);
 
       const response = await fetch(`https://leafeon-google-task-8653dac8c71f.herokuapp.com/api/tasks?access_token=${accessToken}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
+      console.log("TaskData: ", data)
       setTasks(data.tasks.map(task => ({
         title: task.title,
         note: task.note
@@ -131,10 +141,13 @@ export const GoogleDocsProvider = ({ children }) => {
           const user = authInstance.currentUser.get();
           const authResponse = user.getAuthResponse();
           setAccessToken(authResponse.access_token);
-          console.log("Access Token:", accessToken); // Add this line before fetch calls
+          const userEmail = user.getBasicProfile().getEmail();
+          setEmail(userEmail)
 
+          console.log("Access Token3:", accessToken); // Add this line before fetch calls
+          console.log("Email Check:", userEmail, " and ", email); // Add this line before fetch calls
 
-          fetchComments(authResponse.access_token);
+          fetchComments(authResponse.access_token, userEmail); // should be email, but for some reason not updating
           fetchTasks(authResponse.access_token);
           // loadComments(authResponse.access_token);
           // loadTasks(authResponse.access_token);
@@ -149,7 +162,7 @@ export const GoogleDocsProvider = ({ children }) => {
   }, []);
 
   return (
-    <GoogleDocsContext.Provider value={{ comments, accessToken, tasks, moveCommentToTasks }}>
+    <GoogleDocsContext.Provider value={{ comments, accessToken, tasks, moveCommentToTasks, email, updateEmail }}>
       {children}
     </GoogleDocsContext.Provider>
   );
