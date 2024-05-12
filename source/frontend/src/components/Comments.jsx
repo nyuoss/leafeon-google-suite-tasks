@@ -13,7 +13,7 @@ function Comments() {
     return (
         <div>
             <div className=''>
-                <h1 className='mb-6 font-light text-2xl justify-center text-center' style={{ color: '#14367B' }} > Assigned Comments</h1>
+                <h1 className='mb-6 font-light text-2xl justify-center text-center' style={{ color: '#14367B' }} > Comments</h1>
                 <div className='px-6 '>
                     {Array.isArray(comments) && comments.map((comment, index) => (
                         <div className='flex  gap-4'>

@@ -16,7 +16,9 @@ def filter_comments(comments, email=None):
         if email and not is_email_tagged(comment, email):
             include_comment = False
         if include_comment:
-            filtered_comments.append(comment)
+            filtered_comments.extend([{'content': comment['content'],
+                                       'author': comment['author']['displayName'],
+                                       'fileName': comment['fileName']}])
     return filtered_comments
 
 
@@ -36,15 +38,17 @@ def get_comments_from_api(access_token, email=None):
                     f'https://www.googleapis.com/drive/v2/files/{file_id}/comments', headers=headers)
                 comments_response.raise_for_status()
                 comments_data = comments_response.json()
-                comments = [{'content': "HEHEHEH",
-                             'author': "HEHEHEHE"} for comment in comments_data.get('items', [])]
+                comments.extend([{
+                    'content': comment['content'],
+                    'author': comment['author']['displayName'],
+                    'fileName': file['name']} for comment in comments_data['items']])
 
         # Filter comments based on username, keyword, and email
         # filtered_comments = filter_comments(
         #     comments,
         #     email=email
         # )
-
+        # print(filtered_comments)
         return comments
     except Exception as e:
         raise RuntimeError(f"Failed to fetch comments: {str(e)}")
