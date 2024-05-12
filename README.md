@@ -1,11 +1,64 @@
-# Python Project Template
+# Google Suite Tasks Aggregator
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)  [![CircleCI](https://dl.circleci.com/status-badge/img/circleci/42j8atdDzgh7tmZyp3BEAx/NKkbAnw1PXUdhc74vJtLL7/tree/main.svg?style=shield&circle-token=314b77a67a9ca6178d4e8330c76aa0736e30c210)](https://dl.circleci.com/status-badge/redirect/circleci/42j8atdDzgh7tmZyp3BEAx/NKkbAnw1PXUdhc74vJtLL7/tree/main)
 
-This is a template repository for Python projects. It includes a basic setup for managing dependencies, continuous integration, and directory structure commonly used in Python projects.  
+Team: Leafeon  
+New York University, Open Source and Professional Software Development, Spring 2024   
+
+## Live App
+[Leafeon Google Suite Tasks Aggregator](https://leafeon.s3.amazonaws.com/index.html)
+
+## Demo Video
+Watch the video in this repo called `DemoVideo.mp4` to see how our app works!
+
+## Primary Goal
+The primary goal of the Leafeon Google Tasks Aggregator project is to develop a task management tool that addresses deficiencies in Google Suite’s task system, specifically targeting the lack of assigned comment tracking within Google Docs, Sheets, and Slides. The objective is to create a service that aggregates all assigned comments and tasks across the Google Suite into a single, user-friendly interface, enhancing productivity and convenience for users within the Google ecosystem.  
+
+## Features
+- Login with Google
+  - Authenticate yourself with any account that you use for Google Workspace.
+- View Google Docs Comments
+  - Once logged in, you can view all of the comments in all of your Google Docs files in one place.
+- View Google Tasks
+  - Once logged in, you can view all of your Google Tasks.
+- Convert Comments to Tasks
+  - By clicking the Create Task + button next to any comment, you can create a Google Task based on that comment, populated with the comment's information.
+
+## Future Work
+With further development time, the following features from the proposal could be added:
+- Expand support to other Google Workspace apps (Google Sheets, Google Slides, etc.)
+- Potentially filter to only assigned comments, though we found that we preferred seeing all comments with the potential to convert to Tasks.
+- Improve UX by only displaying a certain number of comments or tasks at a time and using a scroll bar or "load more" buttons. 
+- Improve reactivity by removing the need to ever reload the page
+- Include functionality to edit/delete comments or tasks inside of our application
+- Include functionality to notify users of tasks
+- Include functionality to directly create a new blank task from our application (currently can only create a task from a comment).
+
+## Installation & Usage Instructions
+1. Clone this repository.
+2. In the root directory, run `pdm install`. If you receive any import or module errors, try deleting the `pdm.lock` and `.pdm-python` files before running the command again.
+Importantly, these include modules/packages like flask (for the backend), pytest, flake8, black, gunicorn (for Heroku), and coverage.  
+3. Run `npm install --force` to install frontend dependencies.
+Most importantly, these include:
+`gapi-script`: for using google apis
+`react`: for using react libraries
+`tailwindcss`: CSS Framework for UI
+`react-google-login`:  For user authentication
+4. To run this locally, you will need your own Google Console account. [Create a project](https://developers.google.com/workspace/guides/create-project), and then create a client id (for oauth). [Enable Google Drive API and Google Tasks API](https://developers.google.com/workspace/guides/enable-apis). Provide `http://localhost:3000` as the Authorized Redirect URI. This is where the frontend will open. Once you have the client id, replace the `clientId` variable `GoogleDocsContext.js`. 
+5. To run locally, navigate to the `GoogleDocsContext.js` file. In both the `fetchComments` and `fetchTasks` functions, there is a line that starts with `const response = await fetch(`
+Replace the `https://leafeon-2-8bd3e618e164.herokuapp.com/` part of the url with `http://127.0.0.1:5000/` to deploy the backend locally on port 5000.  
+6. Navigate to the `source` directory.
+7. Run `python main.py` to start the backend server.
+Some changes had to be made for the CircleCI environment that do not always act the same locally. If you receive a `ModuleNotFoundError: No module named 'source'`, in the `main.py` imports delete the preceding `source.`s to directly import the module. This change was added for pytest to run successfully, but is known to cause issues locally.
+8. Navigate to the `source/frontend` directory.
+9. Run `npm start` to start the frontend. This should launch a window running the app in your browser at the address `http://localhost:3000`.
 
 ## PDM
 This repository uses [PDM](https://pdm-project.org/latest/) to manage Python packages and dependencies.  
 The configuration can be found in the `pyproject.toml` file. To add or remove dependencies, check the PDM documentation for [managing dependencies](https://pdm-project.org/latest/usage/dependency/).
+
+### Note: Backend Dependencies for Heroku
+This project uses Heroku to deploy its backend. Heroku requires a `requirements.txt` file. If any updates are made to PDM, make sure to migrate them to the `requirements.txt` file with the following command:  
+`pdm export -o requirements.txt --without-hashes`
 
 ## Flake8 & Black
 This repository uses [Flake8](https://flake8.pycqa.org/en/latest/) linting as its static analysis tool to check the code against various style rules and detect potential issues, such as syntax errors, unused variables, or overly complex code.  
@@ -18,14 +71,19 @@ Pytest is set to run on the `source/tests` directory in the "Run tests" run step
 
 ## CircleCI
 This repository uses [CircleCI](https://circleci.com/) for continuous integration.  
-CircleCI will automatically set up python with PDM, install default and development dependencies, run tests with pytest, perform static analysis with flake8, and apply black formatting. To modify these build steps, check the configuration in the `.circleci/config.yml` file.  
+CircleCI will automatically set up python with PDM, install default and development dependencies, run tests with pytest, perform static analysis with flake8, and apply black formatting. It deploys the backend to Heroku and the frontend to an AWS s3 bucket. To modify these build steps, check the configuration in the `.circleci/config.yml` file.  
 
 ## Directory Structure
 
 - `source/`: Contains the main source code.
   - `main.py`: Entry point of the application.
-  - `component/`: Contains an example component.
-    - `component.py`: Contains an example function `add`.
+  - `comments_component/`: Contains the component that handles comments.
+    - `comments.py`: Contains the backend functionality for comments (api calls).
+  - `tasks_component/`: Contains the component that handles tasks.
+    - `tasks.py`: Contains the backend functionality for tasks (api calls).
+  - `frontend/`: Contains the React frontend files
+    - `frontend/components`: Contains the components used in UI
+    - `frontend/GoogleDocsProvider.js`: Context file for React. Backend (Flask) endpoints are called from here.
   - `tests/`: Contains test cases, including a test of component.py.
 
 ## Usage
