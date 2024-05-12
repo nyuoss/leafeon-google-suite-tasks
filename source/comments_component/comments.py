@@ -1,5 +1,6 @@
 import re
 import requests
+from flask import jsonify
 
 
 # Function to detect email tags
@@ -48,6 +49,6 @@ def get_comments_from_api(access_token, email=None):
             comments,
             email=email
         )
-        return filtered_comments
+        return jsonify({'comments': filtered_comments})
     except Exception as e:
         raise RuntimeError(f"Failed to fetch comments: {str(e)}")
