@@ -1,15 +1,18 @@
 import re
 import requests
 
+
 # Function to detect user tags
 def is_user_tagged(comment, username):
     pattern = f"@{re.escape(username)}\\b"
     return bool(re.search(pattern, comment))
 
+
 # Function to detect email tags
 def is_email_tagged(comment, email):
     pattern = f"{re.escape(email)}"
     return bool(re.search(pattern, comment))
+
 
 # Function to filter comments
 def filter_comments(comments, username=None, keyword=None, email=None):
@@ -25,6 +28,7 @@ def filter_comments(comments, username=None, keyword=None, email=None):
         if include_comment:
             filtered_comments.append(comment)
     return filtered_comments
+
 
 def get_comments_from_api(access_token, username=None, keyword=None, email=None):
     try:

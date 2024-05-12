@@ -1,5 +1,6 @@
 import requests
 
+
 def get_tasks_from_api(access_token):
     try:
         # Fetch tasks from Google Tasks API
