@@ -145,7 +145,7 @@ export const GoogleDocsProvider = ({ children }) => {
           console.log("Access Token3:", accessToken); // Add this line before fetch calls
           console.log("Email Check:", userEmail, " and ", email); // Add this line before fetch calls
 
-          fetchComments(authResponse.access_token, email);
+          fetchComments(authResponse.access_token, userEmail); // should be email, but for some reason not updating
           fetchTasks(authResponse.access_token);
           // loadComments(authResponse.access_token);
           // loadTasks(authResponse.access_token);
