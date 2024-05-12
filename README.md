@@ -1,7 +1,7 @@
 # Python Project Template
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)  [![CircleCI](https://dl.circleci.com/status-badge/img/circleci/42j8atdDzgh7tmZyp3BEAx/NKkbAnw1PXUdhc74vJtLL7/tree/main.svg?style=shield&circle-token=314b77a67a9ca6178d4e8330c76aa0736e30c210)](https://dl.circleci.com/status-badge/redirect/circleci/42j8atdDzgh7tmZyp3BEAx/NKkbAnw1PXUdhc74vJtLL7/tree/main)
 
-This is a template repository for Python projects. It includes a basic setup for managing dependencies, continuous integration, and directory structure commonly used in Python projects.
+This is a template repository for Python projects. It includes a basic setup for managing dependencies, continuous integration, and directory structure commonly used in Python projects.  
 
 ## PDM
 This repository uses [PDM](https://pdm-project.org/latest/) to manage Python packages and dependencies.  
