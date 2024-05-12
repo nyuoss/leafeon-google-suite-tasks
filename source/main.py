@@ -3,8 +3,10 @@ from flask_cors import CORS
 from source.comments_component.comments import get_comments_from_api
 from source.tasks_component.tasks import get_tasks_from_api
 
+
 app = Flask(__name__)
 CORS(app)
+
 
 @app.route('/api/comments')
 def get_comments():
@@ -22,6 +24,7 @@ def get_comments():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+
 @app.route('/api/tasks')
 def get_tasks():
     access_token = request.args.get('access_token')
@@ -33,6 +36,7 @@ def get_tasks():
         return jsonify({'tasks': tasks_list}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)

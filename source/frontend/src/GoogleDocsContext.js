@@ -73,7 +73,7 @@ export const GoogleDocsProvider = ({ children }) => {
     try {
       console.log("Access Token:", accessToken);
 
-      const response = await fetch(`http://127.0.0.1:5000/api/comments?access_token=${accessToken}`);
+      const response = await fetch(`https://leafeon-google-task-8653dac8c71f.herokuapp.com/api/comments?access_token=${accessToken}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -93,7 +93,7 @@ export const GoogleDocsProvider = ({ children }) => {
     try {
       console.log("Access Token:", accessToken);
 
-      const response = await fetch(`http://127.0.0.1:5000/api/tasks?access_token=${accessToken}`);
+      const response = await fetch(`https://leafeon-google-task-8653dac8c71f.herokuapp.com/api/tasks?access_token=${accessToken}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
