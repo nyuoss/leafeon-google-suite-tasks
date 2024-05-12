@@ -54,7 +54,7 @@ def get_comments_from_api(access_token, username=None, keyword=None, email=None)
 
         # Filter comments based on username, keyword, and email
         filtered_comments = filter_comments(
-            [comment['content'] for comment in comments],
+            comments,
             username=username,
             keyword=keyword,
             email=email
