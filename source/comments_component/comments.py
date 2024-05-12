@@ -47,10 +47,10 @@ def get_comments_from_api(access_token, email=None):
                     })
 
         # Filter comments based on username, keyword, and email
-        filtered_comments = filter_comments(
-            comments,
-            email=email
-        )
+        # filtered_comments = filter_comments(
+        #     comments,
+        #     email=email
+        # )
 
         return comments
     except Exception as e:
