@@ -17,12 +17,13 @@ CORS(app, resources={r"/api/*": {"origins": "*"}})
 # CLIENT_ID = 'your_client_id'
 # CLIENT_SECRET = 'your_client_secret'
 
+
 @app.route('/api/comments')
 def get_comments():
     access_token = request.args.get('access_token')
     if not access_token:
         return jsonify({'error': 'Access token is required'}), 400
-    
+
     try:
         # Fetch comments from Google Drive API
         headers = {'Authorization': f'Bearer {access_token}'}
