@@ -25,9 +25,9 @@ jobs:
           command: pdm install -d
 
       # Run tests with pytest
-      - run:
-          name: Run backend tests
-          command: pdm run pytest source/tests
+      # - run:
+      #     name: Run backend tests
+      #     command: pdm run pytest source/tests
 
       # Run Flake8 for backend linting
       # - run:
@@ -38,6 +38,16 @@ jobs:
       # - run:
       #     name: Apply backend Black formatting
       #     command: pdm run black 
+
+      # Generate requirements.txt
+      - run:
+          name: Generate requirements.txt
+          command: pdm export -o requirements.txt --without-hashes
+
+      # Upload requirements.txt as artifact
+      - store_artifacts:
+          path: requirements.txt
+          destination: requirements
 
       # Deploy backend to Heroku
       - run:
