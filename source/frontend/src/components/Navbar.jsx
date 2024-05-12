@@ -11,7 +11,7 @@ import placeholderImageUrl from './placeholder.png'; // Adjust the path if neces
 
 
 function Navbar() {
-    const { comments, accessToken } = useGoogleDocs();
+    const { comments, accessToken, updateEmail } = useGoogleDocs();
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);  // State to track login status
     const [profileImageUrl, setProfileImageUrl] = useState(null);
     const [userName, setUsername] = useState(null);
@@ -25,6 +25,8 @@ function Navbar() {
         console.log(res.profileObj.imageUrl);
         setProfileImageUrl(res.profileObj.imageUrl);
         setUsername(res.profileObj.name);
+        updateEmail(res.profileObj.email);
+        console.log("EMAIL", res.profileObj.email);
     };
 
     const onSuccessLogout = (res) => {
@@ -32,6 +34,7 @@ function Navbar() {
         setIsUserLoggedIn(false);  // Set login status to true on successful login
         setProfileImageUrl(null);
         setUsername(null);
+        updateEmail(null);
     };
 
     const handleImageError = () => {

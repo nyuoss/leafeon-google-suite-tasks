@@ -11,15 +11,15 @@ CORS(app)
 @app.route('/api/comments')
 def get_comments():
     access_token = request.args.get('access_token')
-    username = request.args.get('username')
-    keyword = request.args.get('keyword')
+    # username = request.args.get('username')
+    # keyword = request.args.get('keyword')
     email = request.args.get('email')
 
     if not access_token:
         return jsonify({'error': 'Access token is required'}), 400
 
     try:
-        filtered_comments = get_comments_from_api(access_token, username=username, keyword=keyword, email=email)
+        filtered_comments = get_comments_from_api(access_token, email=email)
         return jsonify({'comments': filtered_comments}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
